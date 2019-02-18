@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "Yeelight Control for node",
   "main": "yeelight.js",
+  "maintainers": ["tonylin0826@gmail.com"],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/tonylin0826/node-yeelight.git"
+  },
   "scripts": {
     "test": "npm run test"
   },
@@ -13,6 +18,7 @@
     "Smart",
     "Home"
   ],
+  "homepage": "https://github.com/tonylin0826/node-yeelight#description",
   "author": "Tony Lin",
   "license": "MIT"
 }
