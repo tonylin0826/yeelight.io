@@ -1,5 +1,5 @@
 {
-  "name": "yeelight",
+  "name": "yeelight.io",
   "version": "1.0.0",
   "description": "Yeelight Control for node",
   "main": "yeelight.js",
