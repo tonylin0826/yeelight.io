@@ -56,7 +56,7 @@ toggle('192.168.1.227', (err) => {
 
 ## API
 - <a href="#constructor"><code><b>Bulb(ip, [port])</b></code></a>
-- <a href="#onn"><code><b>on(ip, [cb(err)])</b></code></a>
+- <a href="#on"><code><b>on(ip, [cb(err)])</b></code></a>
 - <a href="#off"><code><b>off(ip, [cb(err)])</b></code></a>
 - <a href="#brightness"><code><b>brightness(ip, [cb(err)])</b></code></a>
 - <a href="#color"><code><b>color(ip, [cb(err)]</b></code></a>
