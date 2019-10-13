@@ -7,7 +7,7 @@
 
 ## Installation
 ```
-npm install yeelight
+npm install yeelight.io
 ```
 
 ## Usage
