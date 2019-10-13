@@ -3,10 +3,12 @@
   "version": "1.0.1",
   "description": "Yeelight Control for node",
   "main": "yeelight.js",
-  "maintainers": ["tonylin0826@gmail.com"],
+  "maintainers": [
+    "tonylin0826@gmail.com"
+  ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/tonylin0826/node-yeelight.git"
+    "type": "git",
+    "url": "https://github.com/tonylin0826/node-yeelight.git"
   },
   "scripts": {
     "test": "npm run test"
@@ -20,5 +22,12 @@
   ],
   "homepage": "https://github.com/tonylin0826/node-yeelight#description",
   "author": "Tony Lin",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "6.5.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "1.18.2",
+    "prettier-eslint": "^9.0.0"
+  },
+  "dependencies": {}
 }
