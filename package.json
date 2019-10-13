@@ -1,6 +1,6 @@
 {
   "name": "yeelight.io",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Yeelight Control for node",
   "main": "yeelight.js",
   "maintainers": [
