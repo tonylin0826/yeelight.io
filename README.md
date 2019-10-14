@@ -16,7 +16,7 @@ Using Bulb type
 ```javascript
 'use strict';
 
-const { Bulb } = require('../yeelight');
+const { Bulb } = require('yeelight.io');
 
 const l1 = new Bulb('192.168.1.227');
 
@@ -43,7 +43,7 @@ Using pre-implement methods
 ```javascript
 'use strict';
 
-const { toggle } = require('../yeelight');
+const { toggle } = require('yeelight.io');
 
 toggle('192.168.1.227', (err) => {
   if (err) {
