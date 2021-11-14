@@ -9,6 +9,31 @@ class Bulb extends EventEmitter {
 
     this.ip = ip
     this.port = port || 55443
+
+    this._supportedProps = [
+      'power',
+      'bright',
+      'ct',
+      'rgb',
+      'hue',
+      'sat',
+      'color_mode',
+      'flowing',
+      'delayoff',
+      'flow_params',
+      'music_on',
+      'name',
+      'bg_power',
+      'bg_flowing',
+      'bg_flow_params',
+      'bg_ct',
+      'bg_lmode',
+      'bg_bright',
+      'bg_rgb',
+      'bg_hue',
+      'bg_sat',
+      'nl_br'
+    ]
   }
 
   connect() {
@@ -43,22 +68,39 @@ class Bulb extends EventEmitter {
       } else {
         if (
           Number.isInteger(r.id) &&
-          Array.isArray(r.result) &&
-          r.result.length === 1
+          Array.isArray(r.result)
         ) {
-          const [re] = r.result
 
+          const results = r.result
           const request = this.waitingRequest.get(r.id)
           this.waitingRequest.delete(r.id)
 
-          if (re !== 'ok') {
-            // console.log('retry', request);
-            setTimeout(this.sendCmd.bind(this, request), 500)
+          if (results.length === 1) {
+            const [re] = results
+
+            const request = this.waitingRequest.get(r.id)
+            this.waitingRequest.delete(r.id)
+
+            if (re !== 'ok') {
+              // console.log('retry', request);
+              setTimeout(this.sendCmd.bind(this, request), 500)
+            }
+          } else {
+            if (request.method === 'get_prop') {
+              const propsObj = this._supportedProps.reduce((prev, cur, idx) => {
+                prev[cur] = results[idx]
+                return prev
+              }, {})
+              this.messageHandler.props(propsObj)
+              this.emit('props', this)
+            }
           }
         }
+
         this.emit('data', this, r)
       }
     } catch (e) {
+      console.log(e)
       this._onError(e)
     }
   }
@@ -122,6 +164,36 @@ class Bulb extends EventEmitter {
     this.sendCmd({
       params: [r * 65536 + g * 256 + b, 'smooth', 300],
       method: 'set_rgb'
+    })
+  }
+
+  getProps() {
+    this.sendCmd({
+      method: 'get_prop',
+      params: [
+        'power',
+        'bright',
+        'ct',
+        'rgb',
+        'hue',
+        'sat',
+        'color_mode',
+        'flowing',
+        'delayoff',
+        'flow_params',
+        'music_on',
+        'name',
+        'bg_power',
+        'bg_flowing',
+        'bg_flow_params',
+        'bg_ct',
+        'bg_lmode',
+        'bg_bright',
+        'bg_rgb',
+        'bg_hue',
+        'bg_sat',
+        'nl_br'
+      ]
     })
   }
 

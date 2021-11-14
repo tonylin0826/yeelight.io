@@ -73,6 +73,7 @@ Methods:
   - <a href="#ioff"><code><b>off()</b></code></a>
   - <a href="#ibrightness"><code><b>brightness(level)</b></code></a>
   - <a href="#icolor"><code><b>color(r, g, b)</b></code></a>
+  - <a href="#iprop"><code><b>getProps()</b></code></a>
 
 
 Events:
@@ -155,6 +156,70 @@ const l1 = new Bulb(IP_STR);
 ...
 
 l1.color(255, 0, 0); // Turn bulb to red
+```
+
+-------------------------------------------------------
+<a name="iprop"></a>
+#### Instance.getProps()
+Retrieve properties from a Yeelight bulb, current support properties
+- power
+- bright
+- ct
+- rgb
+- hue
+- sat
+- color_mode
+- flowing
+- delayoff
+- flow_params
+- music_on
+- name
+- bg_power
+- bg_flowing
+- bg_flow_params
+- bg_ct
+- bg_lmode
+- bg_bright
+- bg_rgb
+- bg_hue
+- bg_sat
+- nl_b
+
+```javascript
+const l1 = new Bulb(IP_STR);
+
+...
+
+l1.on('props', () => {
+  console.log(l1.props)
+  // {
+  //    power: 'on',
+  //    bright: '50',
+  //    ct: '4357',
+  //    rgb: '16711680',
+  //    hue: '0',
+  //    sat: '100',
+  //    color_mode: '2',
+  //    flowing: '0',
+  //    delayoff: '0',
+  //    flow_params: '0,0,1000,1,16776960,100,1000,1,65280,100,1000,1,16744192,100,1000,1,255,100',
+  //    music_on: '0',
+  //    name: '',
+  //    bg_power: '',
+  //    bg_flowing: '',
+  //    bg_flow_params: '',
+  //    bg_ct: '',
+  //    bg_lmode: '',
+  //    bg_bright: '',
+  //    bg_rgb: '',
+  //    bg_hue: '',
+  //    bg_sat: '',
+  //    nl_br: ''
+  //  }
+}
+})
+
+l1.getProps(); // Get bulb properties
 ```
 
 -------------------------------------------------------
