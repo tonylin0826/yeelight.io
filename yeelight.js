@@ -70,16 +70,12 @@ class Bulb extends EventEmitter {
           Number.isInteger(r.id) &&
           Array.isArray(r.result)
         ) {
-
           const results = r.result
           const request = this.waitingRequest.get(r.id)
           this.waitingRequest.delete(r.id)
 
           if (results.length === 1) {
             const [re] = results
-
-            const request = this.waitingRequest.get(r.id)
-            this.waitingRequest.delete(r.id)
 
             if (re !== 'ok') {
               // console.log('retry', request);
