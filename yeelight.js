@@ -96,7 +96,7 @@ class Bulb extends EventEmitter {
         this.emit('data', this, r)
       }
     } catch (e) {
-      console.log(e)
+      // console.log(e)
       this._onError(e)
     }
   }
