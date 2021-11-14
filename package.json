@@ -24,10 +24,11 @@
   "author": "Tony Lin",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "6.5.1",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
     "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "1.18.2",
-    "prettier-eslint": "^9.0.0"
-  },
-  "dependencies": {}
+    "prettier": "2.4.1",
+    "prettier-config-standard": "^4.0.0"
+  }
 }
