@@ -66,6 +66,9 @@ toggle('192.168.1.227', (err) => {
 ### Bulb(ip, [port])
 Create a new Bulb object
 
+Properties:
+  - <a href="#pconnected"><code><b>connected</b></code></a>
+
 Methods:
   - <a href="#iconnect"><code><b>connect()</b></code></a>
   - <a href="#itoggle"><code><b>toggle()</b></code></a>
@@ -81,6 +84,19 @@ Events:
   - <a href="#edisconnected"><code><b>Event: 'disconnected'</b></code></a>
   - <a href="#eerror"><code><b>Event: 'error'</b></code></a>
   - <a href="#edata"><code><b>Event: 'data'</b></code></a>
+
+-------------------------------------------------------
+<a name="pconnected"></a>
+### instance.connected
+Yeelight bulb connection state
+
+```javascript
+const l1 = new Bulb(IP_STR);
+
+if (l1.connected) {
+  l1.toggle()
+}
+```
 
 -------------------------------------------------------
 <a name="iconnect"></a>

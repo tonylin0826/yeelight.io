@@ -9,6 +9,7 @@ class Bulb extends EventEmitter {
 
     this.ip = ip
     this.port = port || 55443
+    this._connected = false
 
     this._supportedProps = [
       'power',
@@ -59,6 +60,10 @@ class Bulb extends EventEmitter {
     this.client.end()
   }
 
+  get connected() {
+    return this._connected
+  }
+
   _onData(data) {
     try {
       const r = JSON.parse(data.toString())
@@ -103,7 +108,7 @@ class Bulb extends EventEmitter {
 
   _onConnected() {
     // console.log('_onConnected');
-
+    this._connected = true
     this.emit('connected', this)
   }
 
@@ -115,7 +120,7 @@ class Bulb extends EventEmitter {
 
   _onClose() {
     // console.log('_onClose');
-
+    this._connected = false
     this.emit('disconnected', this)
   }
 
@@ -194,6 +199,10 @@ class Bulb extends EventEmitter {
   }
 
   sendCmd(cmd) {
+    if (!this.connected) {
+      throw new Error('Blub is not connected - please send command after connected')
+    }
+
     cmd.id = this.cmdId++
     this.waitingRequest.set(cmd.id, cmd)
     this.client.write(`${JSON.stringify(cmd)}\r\n`)
