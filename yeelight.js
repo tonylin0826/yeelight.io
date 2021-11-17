@@ -51,7 +51,16 @@ class Bulb extends EventEmitter {
 
     this.client.connect(this.port, this.ip, this._onConnected.bind(this))
 
-    this.client.on('data', this._onData.bind(this))
+    this.client.on('data', (data) => {
+      const messages = data
+        .toString()
+        .split('\r\n')
+        .filter((m) => m !== '')
+
+      for (const message of messages) {
+        this._onData(message)
+      }
+    })
     this.client.on('close', this._onClose.bind(this))
     this.client.on('error', this._onError.bind(this))
   }
@@ -64,44 +73,42 @@ class Bulb extends EventEmitter {
     return this._connected
   }
 
-  _onData(data) {
+  _onData(message) {
     try {
-      const r = JSON.parse(data.toString())
+      const r = JSON.parse(message)
+
       if (r && r.method && this.messageHandler[r.method]) {
         this.messageHandler[r.method](r.params)
         this.emit('props', this)
-      } else {
-        if (
-          Number.isInteger(r.id) &&
-          Array.isArray(r.result)
-        ) {
-          const results = r.result
-          const request = this.waitingRequest.get(r.id)
-          this.waitingRequest.delete(r.id)
-
-          if (results.length === 1) {
-            const [re] = results
-
-            if (re !== 'ok') {
-              // console.log('retry', request);
-              setTimeout(this.sendCmd.bind(this, request), 500)
-            }
-          } else {
-            if (request.method === 'get_prop') {
-              const propsObj = this._supportedProps.reduce((prev, cur, idx) => {
-                prev[cur] = results[idx]
-                return prev
-              }, {})
-              this.messageHandler.props(propsObj)
-              this.emit('props', this)
-            }
-          }
-        }
-
-        this.emit('data', this, r)
+        return
       }
+
+      this.emit('data', this, r)
+
+      const { result: results, error } = r
+
+      if (Number.isInteger(r.id)) {
+        const request = this.waitingRequest.get(r.id)
+        this.waitingRequest.delete(r.id)
+
+        if (error) {
+          this._onError(new Error(error.message))
+          return
+        } 
+        
+        if (request && request.method === 'get_prop') {
+          const propsObj = this._supportedProps.reduce((prev, cur, idx) => {
+            prev[cur] = results[idx]
+            return prev
+          }, {})
+
+          this.messageHandler.props(propsObj)
+          this.emit('props', this)
+          return
+        }
+      }
+
     } catch (e) {
-      // console.log(e)
       this._onError(e)
     }
   }
@@ -200,7 +207,9 @@ class Bulb extends EventEmitter {
 
   sendCmd(cmd) {
     if (!this.connected) {
-      throw new Error('Blub is not connected - please send command after connected')
+      throw new Error(
+        'Blub is not connected - please send command after connected'
+      )
     }
 
     cmd.id = this.cmdId++
